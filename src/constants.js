@@ -36,7 +36,7 @@ export const TOOLS = [
   {
     id: "simple_mint",
     label: "Token Creator",
-    description: "Easily Inscribe an Asset on Algorand using Crust Network",
+    description: "Easily create you own tokens on Algorand",
     path: "/token-creator",
     category: "mint",
   },
