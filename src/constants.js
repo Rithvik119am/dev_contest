@@ -35,9 +35,9 @@ export const PREFIXES = [];
 export const TOOLS = [
   {
     id: "simple_mint",
-    label: "🌿 Simple Mint",
+    label: "Token Creator",
     description: "Easily Inscribe an Asset on Algorand using Crust Network",
-    path: "/simple-mint",
+    path: "/token-creator",
     category: "mint",
   },
 ];
