@@ -1,5 +1,4 @@
 import { SelectToolComponent } from "../components/SelectToolComponent";
-import DonationDialog from "../components/DonationDialog";
 
 export default function Home() {
   return (
