@@ -182,7 +182,7 @@ export async function buildAssetMintAtomicTransactionComposer(
     amount: algosdk.algosToMicroalgos(MINT_FEE_PER_ASA),
     suggestedParams,
     note: new TextEncoder().encode(
-      "via wen.tools - free tools for creators and collectors | " +
+      "dev-contest a tool to create your own tokens | " +
       Math.random().toString(36).substring(2)
     ),
   });
@@ -310,7 +310,7 @@ export async function makeCrustPinTx(cid, signer) {
     receiver: algosdk.getApplicationAddress(appId),
     amount: price,
     closeRemainderTo: undefined,
-    note: new TextEncoder().encode("via wen.tools - free tools for creators and collectors | " + Math.random().toString(36).substring(2)),
+    note: new TextEncoder().encode("dev-contest a tool to create your own tokens | " + Math.random().toString(36).substring(2)),
     suggestedParams
   });
 
@@ -326,7 +326,7 @@ export async function makeCrustPinTx(cid, signer) {
   return {
     appID: appId,
     method,
-    note: new TextEncoder().encode("via wen.tools - free tools for creators and collectors | " + Math.random().toString(36).substring(2)),
+    note: new TextEncoder().encode("dev-contest a tool to create your own tokens | " + Math.random().toString(36).substring(2)),
     methodArgs: [
       { txn: paymentTxn, signer: txSigner },
       node,

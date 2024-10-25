@@ -20,8 +20,6 @@ import axios from "axios";
 import { CID } from "multiformats/cid";
 import { toast } from "react-toastify";
 import {
-  DONATE_WALLET_1,
-  DONATE_WALLET_2,
   MAINNET_ALGONODE_INDEXER,
   MAINNET_ALGONODE_NODE,
   MINT_FEE_PER_ASA,
@@ -227,7 +225,7 @@ export async function createAssetConfigArray(
       amount: algosToMicroalgos(UPDATE_FEE_PER_ASA),
       suggestedParams: params,
       note: new TextEncoder().encode(
-        "via wen.tools - free tools for creators and collectors | " +
+        "dev-contest a tool to create your own tokens | " +
         Math.random().toString(36).substring(2)
       ),
     });
@@ -307,7 +305,7 @@ export async function createAssetMintArrayV2(
         amount: algosToMicroalgos(MINT_FEE_PER_ASA),
         suggestedParams: params,
         note: new TextEncoder().encode(
-          "via wen.tools - free tools for creators and collectors | " +
+          "dev-contest a tool to create your own tokens | " +
           Math.random().toString(36).substring(2)
         ),
       });
@@ -371,7 +369,7 @@ export async function createAssetMintArray(
         amount: algosToMicroalgos(MINT_FEE_PER_ASA),
         suggestedParams: params,
         note: new TextEncoder().encode(
-          "via wen.tools - free tools for creators and collectors | " +
+          "dev-contest a tool to create your own tokens | " +
           Math.random().toString(36).substring(2)
         ),
       });
@@ -602,7 +600,7 @@ export async function createARC3AssetMintArray(data_for_txns, nodeURL, token) {
         amount: algosToMicroalgos(MINT_FEE_PER_ASA),
         suggestedParams: params,
         note: new TextEncoder().encode(
-          "via wen.tools - free tools for creators and collectors | " +
+          "dev-contest a tool to create your own tokens | " +
           Math.random().toString(36).substring(2)
         ),
       })
@@ -775,7 +773,7 @@ export async function createARC19AssetMintArray(data_for_txns, nodeURL, token) {
         amount: algosToMicroalgos(MINT_FEE_PER_ASA),
         suggestedParams: params,
         note: new TextEncoder().encode(
-          "via wen.tools - free tools for creators and collectors | " +
+          "dev-contest a tool to create your own tokens | " +
           Math.random().toString(36).substring(2)
         ),
       });
@@ -854,7 +852,7 @@ export async function updateARC19AssetMintArrayV2(data_for_txns, nodeURL, extraP
         amount: algosToMicroalgos(UPDATE_FEE_PER_ASA),
         suggestedParams: params,
         note: new TextEncoder().encode(
-          "via wen.tools - free tools for creators and collectors | " +
+          "dev-contest a tool to create your own tokens | " +
           Math.random().toString(36).substring(2)
         ),
       });
@@ -922,7 +920,7 @@ export async function updateARC19AssetMintArray(data_for_txns, nodeURL, token) {
         amount: algosToMicroalgos(UPDATE_FEE_PER_ASA),
         suggestedParams: params,
         note: new TextEncoder().encode(
-          "via wen.tools - free tools for creators and collectors | " +
+          "dev-contest a tool to create your own tokens | " +
           Math.random().toString(36).substring(2)
         ),
       });
@@ -986,10 +984,10 @@ export async function createAirdropTransactions(
           note: new TextEncoder().encode(
             isHolder
               ? data_for_txns[i].note.slice(0, 950) +
-              " | via wen.tools - free tools for creators and collectors  " +
+              " | dev-contest a tool to create your own tokens  " +
               Math.random().toString(36).substring(2)
               : data_for_txns[i].note.slice(0, 950) +
-              " | via wen.tools - free tools for creators and collectors  " +
+              " | dev-contest a tool to create your own tokens  " +
               Math.random().toString(36).substring(2)
           ),
         });
@@ -1006,10 +1004,10 @@ export async function createAirdropTransactions(
           note: new TextEncoder().encode(
             isHolder
               ? data_for_txns[i].note.slice(0, 950) +
-              " | via wen.tools - free tools for creators and collectors  " +
+              " | dev-contest a tool to create your own tokens  " +
               Math.random().toString(36).substring(2)
               : data_for_txns[i].note.slice(0, 950) +
-              " | via wen.tools - free tools for creators and collectors  " +
+              " | dev-contest a tool to create your own tokens  " +
               Math.random().toString(36).substring(2)
           ),
         });
@@ -1028,60 +1026,6 @@ export async function createAirdropTransactions(
   return txnsToValidate;
 }
 
-export async function createDonationTransaction(amount) {
-  const algodClient = new Algodv2("", MAINNET_ALGONODE_NODE, {
-    "User-Agent": "evil-tools",
-  });
-  const params = await algodClient.getTransactionParams().do();
-  const wallet = localStorage.getItem("wallet");
-  const tx = makePaymentTxnWithSuggestedParamsFromObject({
-    from: wallet,
-    to: DONATE_WALLET_1,
-    amount: algosToMicroalgos(amount / 2),
-    suggestedParams: params,
-    note: new TextEncoder().encode("Wen.Tools Donation"),
-  });
-
-  const tx2 = makePaymentTxnWithSuggestedParamsFromObject({
-    from: wallet,
-    to: DONATE_WALLET_2,
-    amount: algosToMicroalgos(amount / 2),
-    suggestedParams: params,
-    note: new TextEncoder().encode("Wen.Tools Donation"),
-  });
-
-  const txnsArray = [tx, tx2];
-  const groupID = computeGroupID(txnsArray);
-  for (let i = 0; i < txnsArray.length; i++) txnsArray[i].group = groupID;
-  let signedTxns;
-  let txnsToValidate;
-  const multipleTxnGroups = [
-    { txn: txnsArray[0], signers: [wallet] },
-    { txn: txnsArray[1], signers: [wallet] },
-  ];
-  try {
-    if (localStorage.getItem("PeraWallet.Wallet") != null) {
-      await peraWallet.reconnectSession();
-      signedTxns = await peraWallet.signTransaction([multipleTxnGroups]);
-      txnsToValidate = signedTxns.flat();
-    } else if (localStorage.getItem("DeflyWallet.Wallet") != null) {
-      await deflyWallet.reconnectSession();
-      signedTxns = await deflyWallet.signTransaction([multipleTxnGroups]);
-      txnsToValidate = signedTxns.flat();
-    } else if (localStorage.getItem("LuteWallet.Wallet")) {
-      signedTxns = await luteWallet.signTxns(multipleTxnGroups);
-      txnsToValidate = signedTxns;
-    } else {
-      await daffiWallet.reconnectSession();
-      signedTxns = await daffiWallet.signTransaction([multipleTxnGroups]);
-      txnsToValidate = signedTxns.flat();
-    }
-    if (txnsToValidate.length === 0) {
-      throw new Error("Transaction signing failed");
-    }
-    return txnsToValidate;
-  } catch (error) { }
-}
 
 export async function createAssetOptInTransactions(assets, nodeURL, mnemonic) {
   const algodClient = new Algodv2("", nodeURL, {
@@ -1097,7 +1041,7 @@ export async function createAssetOptInTransactions(assets, nodeURL, mnemonic) {
       amount: 0,
       assetIndex: parseInt(assets[i]),
       suggestedParams: params,
-      note: new TextEncoder().encode("via wen.tools - free tools for creators and collectors"),
+      note: new TextEncoder().encode("dev-contest a tool to create your own tokens"),
     });
     txnsArray.push(tx);
   }
@@ -1143,7 +1087,7 @@ export async function createClawbackTransactions(
       amount: parseInt(
         data_for_txns[i].amount * 10 ** assetDecimals[data_for_txns[i].asset_id]
       ),
-      note: new TextEncoder().encode("via wen.tools - free tools for creators and collectors"),
+      note: new TextEncoder().encode("dev-contest a tool to create your own tokens"),
     });
     txnsArray.push(tx);
   }
@@ -1185,7 +1129,7 @@ export async function createFreezeTransactions(
       assetIndex: parseInt(data_for_txns[i].asset_id),
       freezeState: data_for_txns[i].frozen.trim() === "Y" ? true : false,
       freezeTarget: data_for_txns[i].wallet,
-      note: new TextEncoder().encode("via wen.tools - free tools for creators and collectors"),
+      note: new TextEncoder().encode("dev-contest a tool to create your own tokens"),
     });
     txnsArray.push(tx);
   }
@@ -1245,7 +1189,7 @@ export async function createAssetOptoutTransactions(
         assetIndex: parseInt(assets[i]),
         suggestedParams: params,
         closeRemainderTo: creatorAddress.trim(),
-        note: new TextEncoder().encode("via wen.tools - free tools for creators and collectors"),
+        note: new TextEncoder().encode("dev-contest a tool to create your own tokens"),
       });
       txnsArray.push(tx);
     }
@@ -1287,7 +1231,7 @@ export async function createAssetDeleteTransactions(assets, nodeURL, mnemonic) {
         suggestedParams: params,
         assetIndex: parseInt(assets[i]),
         note: new TextEncoder().encode(
-          "via wen.tools - free tools for creators and collectors | " +
+          "dev-contest a tool to create your own tokens | " +
           Math.random().toString(36).substring(2)
         ),
       });
