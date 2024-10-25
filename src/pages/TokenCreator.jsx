@@ -147,14 +147,16 @@ export function SimpleMint() {
   }
 
   return (
-    <div className="mx-auto text-white mb-4 text-center flex flex-col items-center max-w-[40rem] gap-y-2 min-h-screen p-4" style={{
+    <div className="mx-auto text-white mb-4 text-center flex flex-col items-center min-h-screen p-4" style={{
       backgroundColor: '#3B1E54', 
-      color: '#EEEEEE'
+      color: '#EEEEEE',
+      width: '100%',
+      maxWidth: '800px',
     }}>
       <p className="text-2xl font-bold mt-1" style={{color: '#EEEEEE'}}>
         {TOOLS.find((tool) => tool.path === window.location.pathname).label}
       </p>
-      <form className="mt-4 flex flex-col gap-y-4" style={{color: '#EEEEEE'}}>
+      <form className="mt-4 flex flex-col gap-y-4 w-full" style={{color: '#EEEEEE'}}>
         <div className="flex flex-col gap-y-2">
           <label className="text-sm leading-none text-gray-200" style={{color: '#EEEEEE'}}>Name*</label>
           <TextField
