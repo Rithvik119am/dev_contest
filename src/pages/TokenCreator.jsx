@@ -12,14 +12,14 @@ import {
   createAssetMintArrayV2,
 } from "../utils";
 import { TOOLS } from "../constants";
-import FaqSectionComponent from "../components/FaqSectionComponent";
 
 const simpleMintAtom = atomWithStorage('simpleMint', {
   name: "",
   unitName: "",
   totalSupply: 1,
+  image_there: false,
   decimals: 0,
-  image: false,
+  image: null,
   format: "Token",
   freeze: false,
   clawback: false,
@@ -255,6 +255,7 @@ export function SimpleMint() {
           label="Need image"
           style={{color: '#EEEEEE'}}
         />
+        
         {formData.image && (
           <div className="flex flex-col gap-y-2">
             <label className="text-sm leading-none text-gray-200" style={{color: '#EEEEEE'}}>URL Field</label>
@@ -406,25 +407,7 @@ export function SimpleMint() {
         >
           Clear & start over
         </Button>
-        <FaqSectionComponent
-          faqData={[
-            {
-              question: "What is Simple Mint?",
-              answer:
-                "Simple Mint is a tool that allows you to mint NFTs and tokens on the Algorand blockchain in any of the major standards.",
-            },
-            {
-              question: "How much does it cost to Mint?",
-              answer:
-                "There is a network fee of 0.1A. In total you need to have at least 0.2A in your wallet before minting.",
-            },
-            {
-              question: "Can I mint a token or memecoin?",
-              answer:
-                "Yes! You can mint a token by selecting the token option on the dropdown.",
-            },
-          ]}
-        />
+        
       </form>
     </div>
   );
