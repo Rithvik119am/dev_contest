@@ -13,11 +13,7 @@ export const TESTNET_ALGONODE_INDEXER = "https://testnet-idx.algonode.cloud";
 export const MAINNET_NFD_API_BASE_URL = "https://api.nf.domains";
 export const TESTNET_NFD_API_BASE_URL = "https://api.testnet.nf.domains";
 
-// DONATION WALLETS
-export const DONATE_WALLET_1 =
-  "O2ZPSV6NJC32ZXQ7PZ5ID6PXRKAWQE2XWFZK5NK3UFULPZT6OKIOROEAPU";
-export const DONATE_WALLET_2 =
-  "VYPDFMVRXCI2Z4FPC2GHB4QC6PSCTEDAS4EU7GE3W4B3MRHXNZO6BB2RZA";
+
 
 // MINT FEES
 export const MINT_FEE_WALLET =
