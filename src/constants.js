@@ -42,17 +42,4 @@ export const TOOLS = [
   },
 ];
 
-// array of external links to be displayed in the dropdown menu
-// icon can be any react element
-export const EXTERNAL_LINKS = [
-  {
-    name: "Wen Wallet",
-    url: "https://wallet.wen.tools",
-    icon: <FaWallet size={20} color="white" />,
-  },
-  {
-    name: "Wen Swap",
-    url: "https://swap.wen.tools",
-    icon: <IoSwapHorizontal size={24} color="white" />,
-  },
-];
+
