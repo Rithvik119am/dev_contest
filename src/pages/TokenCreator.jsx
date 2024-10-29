@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import Switch from "@mui/material/Switch";
 import algosdk from "algosdk";
 import { toast } from "react-toastify";
 import { useAtom } from 'jotai';
@@ -11,6 +11,7 @@ import {
   getTokenPreviewURL,
   createAssetMintArrayV2,
 } from "../utils";
+import { pinImageToCrust } from "../crust";
 import { TOOLS } from "../constants";
 
 const simpleMintAtom = atomWithStorage('simpleMint', {
@@ -18,6 +19,7 @@ const simpleMintAtom = atomWithStorage('simpleMint', {
   unitName: "",
   totalSupply: 1,
   image_there: false,
+  image_type:"url",
   decimals: 0,
   image: null,
   format: "Token",
@@ -59,14 +61,24 @@ export function SimpleMint() {
         properties: {},
       };
       let imageURL;
+      let imageCID = null;
+      if(formData.image_there && formData.image_type === "url") {
       imageURL = formData.urlField;
-      
+      } else if (formData.image_there && formData.image_type === "file") {
+        if (formData.image === null) {
+          toast.error("Please select an image");
+          return;
+        }
+        toast.info("Uploading the image to IPFS...");
+        const authBasic = localStorage.getItem("authBasic");
+        imageCID = await pinImageToCrust(authBasic, formData.image)
+        imageURL = "ipfs://" + imageCID;
+      }
       const nodeURL = getNodeURL();
 
-      if (formData.image) {
+      if (formData.image_there) {
           metadata.image = imageURL;
           metadata.image_mime_type = formData.image ? formData.image.type : "";
-        
       }
 
       let metadataForIPFS = {
@@ -244,11 +256,11 @@ export function SimpleMint() {
         <FormControlLabel
           control={
             <Checkbox
-              checked={formData.image}
+              checked={formData.image_there}
               onChange={(e) => {
                 setFormData({
                   ...formData,
-                  image: e.target.checked,
+                  image_there: e.target.checked,
                 });
               }}
               style={{color: '#EEEEEE'}}
@@ -258,26 +270,77 @@ export function SimpleMint() {
           style={{color: '#EEEEEE'}}
         />
         
-        {formData.image && (
-          <div className="flex flex-col gap-y-2">
-            <label className="text-sm leading-none text-gray-200" style={{color: '#EEEEEE'}}>URL Field</label>
-            <TextField
-              fullWidth
-              variant="outlined"
-              placeholder="Enter Image URL"
-              value={formData.urlField}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  urlField: e.target.value,
-                });
-              }}
-              style={{
-                backgroundColor: '#D4BEE4', 
-                color: '#3B1E54',
-                borderColor: '#9B7EBD'
-              }}
+        {formData.image_there && (
+          <div className="flex flex-col gap-y-2 p-4">
+            <label className="text-white font-semibold">Choose Image Source:</label>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={formData.image_type === "url"}
+                  onChange={() =>
+                    setFormData({
+                      ...formData,
+                      image_type: formData.image_type === "url" ? "file" : "url"
+                    })
+                  }
+                  sx={{
+                    "& .MuiSwitch-thumb": {
+                      backgroundColor: "#D4BEE4",
+                    },
+                    "& .MuiSwitch-track": {
+                      backgroundColor: "#ddd",
+                    },
+                    "& .Mui-checked + span.MuiSwitch-track": {
+                      backgroundColor: "#9B7EBD",
+                    },
+                  }}
+                />
+              }
+              label={formData.image_type === "url" ? "Link the Image" : "Upload the Image"}
+              style={{ color: '#EEEEEE', margin: '0.5rem 0' }}
             />
+            {formData.image_there && formData.image_type === "url" && (
+              <div className="flex flex-col gap-y-2 p-4">
+              <label className="text-sm leading-none text-gray-200" style={{color: '#EEEEEE'}}>URL Field</label>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Enter Image URL"
+                value={formData.urlField}
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    urlField: e.target.value,
+                  });
+                }}
+                style={{
+                  backgroundColor: '#D4BEE4', 
+                  color: '#3B1E54',
+                  borderColor: '#9B7EBD'
+                }}
+              />
+            </div>
+            )}
+            {formData.image_there && formData.image_type === "file" && (
+              <div className="flex flex-col gap-y-2 p-4">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      image: e.target.files[0],
+                    });
+                  }}
+                />
+              </div>
+            )}
+            <p className="text-gray-400 text-sm">
+              {formData.image_type === "url" 
+                ? "Provide a link to the image you want to use." 
+                : "Upload an image file directly from your device."
+              }
+            </p>
           </div>
         )}
         <div className="flex flex-col gap-y-2">
