@@ -14,7 +14,7 @@ import {
   signTransaction,
   makeAssetDestroyTxnWithSuggestedParamsFromObject,
   makeAssetFreezeTxnWithSuggestedParamsFromObject,
-  decodeAddress, createDryrun, generateAccount,
+  decodeAddress
 } from "algosdk";
 import axios from "axios";
 import { CID } from "multiformats/cid";

@@ -1,5 +1,3 @@
-import { FaWallet } from "react-icons/fa";
-import { IoSwapHorizontal } from "react-icons/io5";
 
 // NODE
 export const MAINNET_ALGONODE_NODE = "https://mainnet-api.algonode.cloud";
