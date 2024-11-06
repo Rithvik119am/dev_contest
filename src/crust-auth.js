@@ -44,39 +44,8 @@ export function isCrustAuth() {
 }
 
 const getPerfix = (user) => {
-  if (user.wallet.startsWith("metamask") || user.wallet === "metax" || user.wallet === "wallet-connect" || user.wallet === "web3auth") {
-    return "eth";
-  }
-
-  if (user.wallet === "near") {
-    return "near";
-  }
-
-  if (user.wallet === "flow") {
-    return "flow";
-  }
-
-  if (user.wallet === "solana") {
-    return "sol";
-  }
-
-  if (user.wallet === "elrond") {
-    return "elrond";
-  }
-
   if (user.wallet === "algorand") {
     return "algo";
-  }
-
-  if (user.wallet === "aptos-martian") {
-    return "aptos";
-  }
-
-  if (user.wallet === "aptos-petra") {
-    return "aptos";
-  }
-  if (user.wallet === 'ton-connect') {
-    return 'ton'
   }
   return "substrate";
 };
