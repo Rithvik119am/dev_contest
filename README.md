@@ -11,13 +11,12 @@ This project is a decentralized application (dApp) that enables users to create 
 
 	•	Frontend: React.js
 	•	Backend: JavaScript
-	•	Smart Contract: PyTeal (Algorand’s Python SDK)
 	•	Blockchain: Algorand
 
 ## Prerequisites
 
 	•	Node.js (>= 14.x)
-	•	Algorand Wallet (AlgoSigner or MyAlgo Wallet)
+	•	Algorand Wallet (PeraAlgo Wallet)
 	•	Algorand Testnet Access (if testing)
 	•	React.js
 
